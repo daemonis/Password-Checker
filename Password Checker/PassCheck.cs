@@ -102,19 +102,31 @@
         {
             Console.Write("Hello. Thank you for using a TechCorps system.\nPlease make a username for use on login: ");
 
+            bool usernameIsLong = false;
+            bool passwordIsLong = false;
+            bool passwordHasNum = false;
+            bool passwordHasCaps = false;
+
             do
             {
                 GetUsername();
-                if (!IsUsernameThere())
+
+                bool usernameIsThere = IsUsernameThere();
+
+                if (!usernameIsThere)
                 {
                     Console.Write("You must enter a username.\nPlease enter a username: ");
+                    continue;
                 }
-                else if (!IsUsernameLong())
+
+                usernameIsLong = IsUsernameLong();
+
+                if (!usernameIsLong)
                 {
                     Console.Write("Your username must contain the following:\n- Between 8 and 20 characters.\nPlease try again: ");
                 }
             }
-            while (!IsUsernameThere() || !IsUsernameLong());
+            while (!usernameIsLong);
 
             Console.Write($"Please set a password for user {username}: ");
 
@@ -122,17 +134,24 @@
             {
                 GetPassword();
 
-                if (!IsPasswordThere())
+                bool passwordIsThere = IsPasswordThere();
+
+                if (!passwordIsThere)
                 {
                     Console.Write("You must enter a password.\nPlease enter a password: ");
                     continue;
                 }
-                else if (!IsPasswordLong() || !IsPasswordCaps() || !IsPasswordNum())
+
+                passwordHasNum = IsPasswordNum();
+                passwordHasCaps = IsPasswordCaps();
+                passwordIsLong = IsPasswordLong();
+
+                if (!passwordIsLong || !passwordHasCaps || !passwordHasNum)
                 {
                     Console.Write($"Your password must contain the following:\n- More than 8 characters.\n- A number.\n- A capital letter.\nPlease try again: ");
                 }
             }
-            while (!IsPasswordLong() || !IsPasswordCaps() || !IsPasswordNum());
+            while (!passwordIsLong || !passwordHasCaps || !passwordHasNum);
 
             Console.WriteLine("Your password meets our system criteria, welcome!.");
         }
