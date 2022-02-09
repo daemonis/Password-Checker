@@ -2,7 +2,8 @@
 {
     class PassCheck
     {
-        private static string password = "";
+        private static string? password;
+        private static string? username;
 
         static void GetPassword()
         {
@@ -56,10 +57,48 @@
             }
         }
 
+        static bool IsPasswordThere()
+        {
+            if (password == null || password.Length <= 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        static bool IsUsernameThere()
+        {
+            if (username == null || username.Length <= 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        static void GetUsername()
+        {
+            username = Console.ReadLine();
+        }
+
         static void Main(string[] args)
         {
             Console.Write("Hello. Thank you for using a TechCorps system.\nPlease make a username for use on login: ");
-            string username = Console.ReadLine();
+
+            do
+            {
+                GetUsername();
+                if (!IsUsernameThere())
+                {
+                    Console.Write("You must enter a username.\nPlease enter a username: ");
+                }
+            }
+            while (!IsUsernameThere());
 
             Console.Write($"Please set a password for user {username}: ");
 
@@ -70,6 +109,12 @@
             do
             {
                 GetPassword();
+
+                if (!IsPasswordThere())
+                {
+                    Console.Write("You must enter a password.\nPlease enter a password: ");
+                    continue;
+                }
 
                 passwordIsLong = IsPasswordLong();
                 passwordIsCaps = IsPasswordCaps();
